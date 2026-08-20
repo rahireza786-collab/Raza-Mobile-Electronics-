@@ -1,0 +1,1 @@
+Admin authentication uses Supabase Auth. The admin login is /admin/login.html and the protected dashboard is /admin/. Set the Supabase public anon/publishable key as RAZA_SUPABASE_ANON_KEY in the deployment configuration before using authentication. Never place a service-role key in browser code.
