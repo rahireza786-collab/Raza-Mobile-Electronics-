@@ -1,48 +1,41 @@
-const SUPABASE_URL='https://iljmxsfcjuutppftsrrt.supabase.co';
-const SUPABASE_KEY=['sb_publishable_','g4l-OO-1x1X4LMM-','c5cnXA_DItmM14F'].join('');
-const style=document.createElement('style');style.textContent=`
-/* RAZA PREMIUM FLAGSHIP HERO */
-.hero-art.real-product-showcase{position:relative!important;overflow:hidden!important;isolation:isolate!important;min-height:640px!important;border-radius:34px!important;background:radial-gradient(ellipse at 65% 32%,#294d78 0%,#122844 36%,#071426 67%,#02060c 100%)!important;box-shadow:0 35px 90px #07142640,inset 0 0 0 1px #e8c86a55!important}
-.hero-art.real-product-showcase:before{content:'';position:absolute;inset:auto 0 0;height:42%;background:linear-gradient(180deg,transparent,#02060ce8 78%);z-index:1;pointer-events:none}
-.hero-art.real-product-showcase:after{content:'';position:absolute;width:65%;height:18%;left:18%;bottom:-7%;border-radius:50%;background:#f4c95b35;filter:blur(45px);z-index:0}
-.real-product-showcase .hero-brand-lockup{position:absolute!important;z-index:2!important;left:51%!important;top:18%!important;transform:translateX(-50%)!important;text-align:center!important;opacity:1!important;white-space:nowrap!important;pointer-events:none!important}
-.real-product-showcase .hero-brand-lockup strong{display:block!important;color:#ffffff10!important;font:900 clamp(68px,8vw,120px)/.78 Manrope!important;letter-spacing:-8px!important;text-shadow:0 1px 0 #ffffff12!important}
-.real-product-showcase .hero-brand-lockup span{display:block!important;color:#ffffff45!important;font:900 8px Manrope!important;letter-spacing:4px!important;margin-top:16px!important}
-.real-product-showcase .product-stage{position:absolute!important;inset:0!important;z-index:4!important;display:flex!important;align-items:flex-end!important;justify-content:center!important;padding:35px 18px 18px!important;gap:0!important}
-.real-product-showcase .device-shot{position:relative!important;height:100%!important;flex:0 0 53%!important;display:flex!important;align-items:flex-end!important;justify-content:center!important;overflow:visible!important}
-.real-product-showcase .device-shot.iphone{z-index:5!important;transform:translateX(10px)!important}
-.real-product-showcase .device-shot.samsung{z-index:4!important;transform:translateX(-8px)!important}
-.real-product-showcase .device-shot img{display:block!important;width:100%!important;height:100%!important;object-fit:contain!important;object-position:center bottom!important;filter:drop-shadow(0 28px 30px #000b)!important;animation-duration:7s!important;animation-timing-function:ease-in-out!important;animation-iteration-count:infinite!important;transform-origin:center bottom!important}
-.real-product-showcase .device-shot.iphone img{transform:scale(1.20)!important;animation-name:iphoneFloat!important}
-.real-product-showcase .device-shot.samsung img{transform:scale(1.13)!important;animation-name:samsungFloat!important;animation-delay:-3.5s!important}
-.real-product-showcase .device-label{position:absolute!important;left:50%!important;bottom:19px!important;transform:translateX(-50%)!important;z-index:8!important;white-space:nowrap!important;padding:10px 15px!important;border:1px solid #f0c85c80!important;border-radius:999px!important;background:#071426e8!important;color:#fff!important;backdrop-filter:blur(14px)!important;font:900 8px Manrope,sans-serif!important;letter-spacing:2px!important;box-shadow:0 15px 35px #0008!important}
-.real-product-showcase .device-label b{color:#f4c95b!important}
-.real-product-showcase .hero-ring,.real-product-showcase .hero-orbit,.real-product-showcase .phone,.real-product-showcase .luxury-halo{display:none!important}
-@keyframes iphoneFloat{0%,100%{transform:translateY(5px) scale(1.20)}50%{transform:translateY(-10px) scale(1.225)}}
-@keyframes samsungFloat{0%,100%{transform:translateY(3px) scale(1.13)}50%{transform:translateY(-12px) scale(1.15)}}
-.hero-art.admin-hero-mode .product-stage{padding:22px 24px 20px!important}
-.hero-art.admin-hero-mode .admin-hero-image{position:absolute!important;inset:7% 7% 6%!important;width:86%!important;height:87%!important;object-fit:contain!important;object-position:center!important;filter:drop-shadow(0 30px 35px #000b)!important;z-index:4!important;animation:adminHeroFloat 7s ease-in-out infinite!important;transform-origin:center center!important}
-.hero-art.admin-hero-mode .hero-brand-lockup{z-index:2!important;top:17%!important}
-.hero-art.admin-hero-mode .admin-hero-caption{position:absolute!important;left:50%!important;bottom:18px!important;transform:translateX(-50%)!important;z-index:8!important;white-space:nowrap!important;padding:10px 15px!important;border:1px solid #f0c85c80!important;border-radius:999px!important;background:#071426e8!important;color:#fff!important;backdrop-filter:blur(14px)!important;font:900 8px Manrope,sans-serif!important;letter-spacing:2px!important;box-shadow:0 15px 35px #0008!important}
-.hero-art.admin-hero-mode .admin-hero-caption b{color:#f4c95b!important}
-@keyframes adminHeroFloat{0%,100%{transform:translateY(3px) scale(1)}50%{transform:translateY(-9px) scale(1.012)}}
-@keyframes adminHeroZoom{0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}
-@keyframes adminHeroDrift{0%,100%{transform:translate3d(0,2px,0) scale(1)}50%{transform:translate3d(8px,-7px,0) scale(1.01)}}
-.hero-art.admin-hero-mode.anim-zoom .admin-hero-image{animation-name:adminHeroZoom!important;animation-duration:8s!important}
-.hero-art.admin-hero-mode.anim-drift .admin-hero-image{animation-name:adminHeroDrift!important;animation-duration:8s!important}
-.hero-art.admin-hero-mode.anim-none .admin-hero-image{animation:none!important}
-@media(max-width:1100px){.hero-art.real-product-showcase{min-height:570px!important}.real-product-showcase .device-shot{flex-basis:55%!important}.real-product-showcase .device-shot.iphone img{transform:scale(1.08)!important}.real-product-showcase .device-shot.samsung img{transform:scale(1.02)!important}}
-@media(max-width:820px){.hero-art.real-product-showcase,.hero-art.admin-hero-mode{min-height:510px!important;border-radius:25px!important;margin-top:12px!important}.real-product-showcase .product-stage{padding:28px 2px 15px!important}.real-product-showcase .device-shot{flex-basis:62%!important}.real-product-showcase .device-shot.iphone{transform:translateX(13px)!important}.real-product-showcase .device-shot.samsung{transform:translateX(-13px)!important}.real-product-showcase .device-shot.iphone img{transform:scale(1.04)!important}.real-product-showcase .device-shot.samsung img{transform:scale(.98)!important}.real-product-showcase .hero-brand-lockup{top:15%!important}.real-product-showcase .hero-brand-lockup strong{font-size:72px!important}.real-product-showcase .device-label{bottom:11px!important;font-size:6.5px!important;letter-spacing:1.2px!important;padding:8px 9px!important}.hero-art.admin-hero-mode .admin-hero-image{inset:8% 4% 8%!important;width:92%!important;height:84%!important}.hero-art.admin-hero-mode .admin-hero-caption{bottom:10px!important;font-size:6.5px!important;letter-spacing:1.2px!important;padding:8px 10px!important}}
-`;document.head.appendChild(style);
-const money=v=>`₹${Number(v||0).toLocaleString('en-IN')}`;
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const whatsapp=p=>`https://wa.me/919534715178?text=${encodeURIComponent(`Hello Raza Mobile & Electronics, I want to buy ${p.name||'this product'}.`)}`;
-const placeholder=p=>`<div class="product-placeholder"><strong>${esc((p.brand||p.name||'R').slice(0,1).toUpperCase())}</strong><span>${esc(p.brand||'RAZA')}</span></div>`;
-function card(p){const href=p.id?`product.html?id=${encodeURIComponent(p.id)}`:'#';const img=p.image?`<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">${placeholder(p)}`:placeholder(p);return `<article class="product-card search-product" data-name="${esc(`${p.name||''} ${p.meta||''} ${p.brand||''}`.toLowerCase())}"><a class="product-card-link" href="${href}"><div class="product-image">${img}<span class="pill">${esc(p.tag||'AVAILABLE')}</span></div><div class="product-info"><small>${esc(p.meta||'')}</small><h3>${esc(p.name||'Product')}</h3><div class="price-row"><span class="price">${esc(p.price||'Price on request')}</span><span class="arrow">↗</span></div></div></a><a class="product-buy" href="${whatsapp(p)}" target="_blank" rel="noopener">Buy / Enquire</a></article>`}
-function section(c){const s=`${c?.slug||''} ${c?.name||''}`.toLowerCase().replace(/[-_]+/g,' ');if(s.includes('new phone')||s.includes('new mobile'))return'new';if(s.includes('second hand')||s.includes('used phone')||s.includes('pre owned'))return'used';if(s.includes('accessor'))return'accessories';return'other'}
-async function loadLiveCatalogue(){const h={apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`};try{const [a,b]=await Promise.all([fetch(`${SUPABASE_URL}/rest/v1/products?select=*&is_active=eq.true&order=created_at.desc`,{headers:h}),fetch(`${SUPABASE_URL}/rest/v1/categories?select=id,name,slug&is_active=eq.true`,{headers:h})]);const products=await a.json(),cats=b.ok?await b.json():[];const cm={};cats.forEach(c=>cm[c.id]=c);const ids=products.map(p=>p.id).filter(Boolean);let ims=[];if(ids.length){const r=await fetch(`${SUPABASE_URL}/rest/v1/product_images?select=product_id,image_url,sort_order&product_id=in.(${ids.join(',')})&order=sort_order.asc`,{headers:h});if(r.ok)ims=await r.json()}const im={};ims.forEach(x=>{if(!im[x.product_id])im[x.product_id]=x.image_url});const rows=products.map(p=>({...p,section:section(cm[p.category_id]||{}),image:im[p.id],meta:[p.storage,p.condition].filter(Boolean).join(' • ')||'Available',price:money(p.sale_price??p.price),tag:p.condition?'VERIFIED USED':p.is_featured?'FEATURED':'NEW'}));const put=(id,arr,msg)=>document.getElementById(id).innerHTML=arr.length?arr.map(card).join(''):`<div class="catalog-empty">${msg}</div>`;put('newProducts',rows.filter(p=>p.section==='new'),'No new phones listed yet.');put('usedProducts',rows.filter(p=>p.section==='used'),'No second-hand phones listed yet.');put('accessoryProducts',rows.filter(p=>p.section==='accessories'),'No accessories listed yet.')}catch(e){console.warn('Catalogue:',e)}}
-async function loadHeroSettings(){const h={apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`};try{const r=await fetch(`${SUPABASE_URL}/rest/v1/site_settings?select=key,value,image_url&key=in.(hero_image,hero_animation)&order=key.asc`,{headers:h});if(!r.ok)throw Error('Hero settings unavailable');const rows=await r.json();const map={};rows.forEach(x=>map[x.key]=x);const url=map.hero_image?.image_url||map.hero_image?.value||'';if(url){renderAdminHero(url,map.hero_animation?.value||'float')}else renderProductHero()}catch(e){renderProductHero()}}
-function renderAdminHero(url,animation='float'){const a=document.querySelector('.hero-art');if(!a)return;a.className='hero-art admin-hero-mode anim-'+(animation==='zoom'||animation==='drift'||animation==='none'?animation:'float');a.innerHTML=`<div class="luxury-halo"></div><div class="hero-brand-lockup"><strong>RAZA</strong><span>MOBILE &amp; ELECTRONICS</span></div><img class="admin-hero-image" src="${esc(url)}" alt="Raza Mobile & Electronics hero image"><div class="admin-hero-caption"><b>RAZA</b> · PREMIUM SHOWROOM</div>`}
-function renderProductHero(){const a=document.querySelector('.hero-art');if(!a)return;a.className='hero-art real-product-showcase';a.innerHTML=`<div class="hero-brand-lockup"><strong>RAZA</strong><span>MOBILE &amp; ELECTRONICS</span></div><div class="product-stage"><div class="device-shot iphone"><img src="https://www.apple.com/in/iphone-17-pro/images/overview/product-viewer/initial__d2ghrz27b54y_large.jpg" alt="Official Apple iPhone 17 Pro"><div class="device-label"><b>iPHONE 17 PRO</b> · OFFICIAL</div></div><div class="device-shot samsung"><img src="https://images.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/M3_S.comonlySingleKV_PC_944x510.jpg" alt="Official Samsung Galaxy S26 Ultra"><div class="device-label"><b>GALAXY S26 ULTRA</b> · OFFICIAL</div></div></div>`}
-function init(){loadHeroSettings();loadLiveCatalogue();const s=document.getElementById('siteSearch');s?.addEventListener('input',e=>{const q=e.target.value.toLowerCase().trim();document.querySelectorAll('.search-product').forEach(x=>x.style.display=!q||x.dataset.name.includes(q)?'':'none')});const m=document.getElementById('menuBtn');m?.addEventListener('click',()=>{const n=document.querySelector('.header nav');if(n)n.style.display=n.style.display==='flex'?'none':'flex'});}
-init();
+/* RAZA homepage runtime: preserve the previous app and replace only the hero presentation with the approved reference visual. */
+(async()=>{
+  const legacy='https://raw.githubusercontent.com/rahireza786-collab/Raza-Mobile-Electronics-/10bf9934717d31db89d6f464c41f25575705f762/app.js';
+  try{
+    const r=await fetch(legacy,{cache:'no-store'});
+    if(!r.ok) throw new Error('legacy app unavailable');
+    const code=await r.text();
+    (0,eval)(code);
+  }catch(e){console.error('Raza app bootstrap failed',e)}
+
+  const css=document.createElement('style');
+  css.textContent=`
+    .hero.reference-hero-mode{display:block!important;padding:0!important;margin:0!important;min-height:unset!important}
+    .hero.reference-hero-mode .hero-copy{display:none!important}
+    .hero.reference-hero-mode .hero-art{display:block!important;position:relative!important;width:100%!important;min-height:unset!important;height:auto!important;aspect-ratio:1200/614!important;margin:0!important;border-radius:0!important;overflow:hidden!important;background:#071426!important;box-shadow:none!important}
+    .hero.reference-hero-mode .reference-hero-image{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;display:block!important;object-fit:cover!important;object-position:center!important;max-width:none!important;filter:none!important;animation:referenceHeroBreath 10s ease-in-out infinite!important;transform-origin:center center!important}
+    .hero.reference-hero-mode .marquee{margin-top:0!important}
+    @keyframes referenceHeroBreath{0%,100%{transform:scale(1)}50%{transform:scale(1.008)}}
+    @media(max-width:820px){
+      .hero.reference-hero-mode .hero-art{aspect-ratio:1200/614!important}
+      .hero.reference-hero-mode .reference-hero-image{object-position:center center!important}
+    }
+    @media(prefers-reduced-motion:reduce){.hero.reference-hero-mode .reference-hero-image{animation:none!important}}
+  `;
+  document.head.appendChild(css);
+
+  const apply=()=>{
+    const hero=document.querySelector('.hero');
+    const art=document.querySelector('.hero-art');
+    if(!hero||!art) return false;
+    hero.classList.add('reference-hero-mode');
+    art.className='hero-art reference-hero-mode';
+    art.innerHTML='<img class="reference-hero-image" src="/assets/raza-hero-reference.svg" alt="Raza Mobile & Electronics premium flagship hero">';
+    return true;
+  };
+
+  let tries=0;
+  const timer=setInterval(()=>{
+    if(apply()||++tries>30) clearInterval(timer);
+  },250);
+})();
