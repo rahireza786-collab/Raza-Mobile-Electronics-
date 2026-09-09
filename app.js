@@ -1,56 +1,27 @@
-/* RAZA homepage — bulletproof hero + catalogue */
+/* RAZA homepage — replaceable hero image + catalogue */
 (()=>{
   const SUPABASE_URL='https://iljmxsfcjuutppftsrrt.supabase.co';
   const SUPABASE_KEY=(document.documentElement.innerHTML.match(/sb_publishable_[A-Za-z0-9_-]+/)||[])[0]||'';
-  const HERO='/assets/raza-hero-reference-hd.jpg?v=20';
-  const BACKUP='/assets/raza-hero-reference.jpg?v=20';
+  const HERO='/assets/hero-image.jpg?v=1';
+  const FALLBACK='/assets/raza-hero-reference-hd.jpg?v=20';
   const style=document.createElement('style');
   style.textContent=`
     .hero{display:block!important;min-height:0!important;padding:0!important;overflow:hidden!important;background:#071426!important;position:relative!important}
-    .hero-art{position:relative!important;width:100%!important;height:auto!important;min-height:0!important;aspect-ratio:1672/818!important;margin:0!important;display:block!important;overflow:hidden!important;background:#071426 url('${HERO}') center/cover no-repeat!important;z-index:2!important}
-    .hero-image-local{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;display:block!important;object-fit:cover!important;object-position:center!important;max-width:none!important;margin:0!important;padding:0!important;border:0!important;opacity:1!important;visibility:visible!important}
-    .hero-copy{display:none!important}
-    .hero-art .hero-fallback{position:absolute!important;inset:0!important;display:none;align-items:center;justify-content:center;background:#071426;color:#fff;font:800 30px Manrope,sans-serif;z-index:4!important}
-    .hero-art.hero-error .hero-fallback{display:flex!important}
-    .hero-art.hero-error{background:linear-gradient(135deg,#071426,#173b68)!important}
-    .hero-art.hero-error .hero-image-local{display:none!important}
-    .hero-hotspot{position:absolute!important;z-index:8!important;background:transparent!important;border:0!important}
-    .hero-shop{left:3%;top:65%;width:24%;height:22%}
-    .hero-next{right:0;top:40%;width:10%;height:25%}
+    .hero-art{position:relative!important;width:100%!important;height:auto!important;min-height:0!important;aspect-ratio:1672/818!important;margin:0!important;display:block!important;overflow:hidden!important;background:#071426!important;z-index:2!important}
+    .hero-image-local{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;display:block!important;object-fit:cover!important;object-position:center!important;max-width:none!important;margin:0!important;border:0!important;opacity:1!important;visibility:visible!important;animation:razaHeroZoom 16s ease-in-out infinite alternate}
+    .hero-art:after{content:'';position:absolute;inset:0;pointer-events:none;z-index:4;background:linear-gradient(90deg,#07142622,#ffffff00 45%,#f0c85c12);mix-blend-mode:screen;animation:razaHeroGlow 8s ease-in-out infinite alternate}
+    .hero-copy{display:none!important}.hero-fallback{position:absolute!important;inset:0!important;display:none!important;align-items:center;justify-content:center;background:#071426;color:#fff;font:800 30px Manrope,sans-serif;z-index:6!important}
+    .hero-art.hero-error .hero-fallback{display:flex!important}.hero-art.hero-error{background:linear-gradient(135deg,#071426,#173b68)!important}.hero-art.hero-error .hero-image-local{display:none!important}
+    .hero-hotspot{position:absolute!important;z-index:8!important;background:transparent!important;border:0!important}.hero-shop{left:3%;top:65%;width:24%;height:22%}.hero-next{right:0;top:40%;width:10%;height:25%}
+    @keyframes razaHeroZoom{from{transform:scale(1)}to{transform:scale(1.035)}}@keyframes razaHeroGlow{from{opacity:.25;transform:translateX(-2%)}to{opacity:.8;transform:translateX(2%)}}
     @media(max-width:820px){.hero-art{aspect-ratio:1.65!important}.hero-shop{left:2%;top:64%;width:32%;height:25%}.hero-next{width:15%;height:25%}}
-  `;
-  document.head.appendChild(style);
-
+  `;document.head.appendChild(style);
   const art=document.querySelector('.hero-art');
-  if(art){
-    art.className='hero-art';
-    art.innerHTML=`<img class="hero-image-local" src="${HERO}" alt="Raza Mobile & Electronics premium hero"><div class="hero-fallback"><b>RAZA</b>&nbsp; MOBILE &amp; ELECTRONICS</div><a class="hero-hotspot hero-shop" href="#new" aria-label="Shop Now"></a><a class="hero-hotspot hero-next" href="#new" aria-label="Next"></a>`;
-    const img=art.querySelector('img');
-    img.onerror=()=>{if(!img.dataset.backup){img.dataset.backup='1';img.src=BACKUP}else{art.classList.add('hero-error')}};
-  }
-
-  const money=v=>`₹${Number(v||0).toLocaleString('en-IN')}`;
-  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  if(art){art.className='hero-art';art.innerHTML=`<img class="hero-image-local" src="${HERO}" alt="Raza Mobile & Electronics hero"><div class="hero-fallback"><b>RAZA</b>&nbsp; MOBILE &amp; ELECTRONICS</div><a class="hero-hotspot hero-shop" href="#new" aria-label="Shop Now"></a><a class="hero-hotspot hero-next" href="#new" aria-label="Next"></a>`;const img=art.querySelector('img');img.onerror=()=>{if(!img.dataset.fallback){img.dataset.fallback='1';img.src=FALLBACK}else art.classList.add('hero-error')}}
+  const money=v=>`₹${Number(v||0).toLocaleString('en-IN')}`;const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const section=c=>{const s=`${c?.slug||''} ${c?.name||''}`.toLowerCase().replace(/[-_]+/g,' ');if(s.includes('new phone')||s.includes('new mobile'))return'new';if(s.includes('second hand')||s.includes('used phone')||s.includes('pre owned'))return'used';if(s.includes('accessor'))return'accessories';return'other'};
-  const placeholder=p=>`<div class="product-placeholder"><strong>${esc((p.brand||p.name||'R').slice(0,1).toUpperCase())}</strong><span>${esc(p.brand||'RAZA')}</span></div>`;
-  const whatsapp=p=>`https://wa.me/919534715178?text=${encodeURIComponent(`Hello Raza Mobile & Electronics, I want to buy ${p.name||'this product'}.`)}`;
+  const placeholder=p=>`<div class="product-placeholder"><strong>${esc((p.brand||p.name||'R').slice(0,1).toUpperCase())}</strong><span>${esc(p.brand||'RAZA')}</span></div>`;const whatsapp=p=>`https://wa.me/919534715178?text=${encodeURIComponent(`Hello Raza Mobile & Electronics, I want to buy ${p.name||'this product'}.`)}`;
   function card(p){const href=p.id?`product.html?id=${encodeURIComponent(p.id)}`:'#';const img=p.image?`<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">${placeholder(p)}`:placeholder(p);return `<article class="product-card search-product" data-name="${esc(`${p.name||''} ${p.meta||''} ${p.brand||''}`.toLowerCase())}"><a class="product-card-link" href="${href}"><div class="product-image">${img}<span class="pill">${esc(p.tag||'AVAILABLE')}</span></div><div class="product-info"><small>${esc(p.meta||'')}</small><h3>${esc(p.name||'Product')}</h3><div class="price-row"><span class="price">${esc(p.price||'Price on request')}</span><span class="arrow">↗</span></div></div></a><a class="product-buy" href="${whatsapp(p)}" target="_blank" rel="noopener">Buy / Enquire</a></article>`}
-  async function loadCatalogue(){
-    if(!SUPABASE_KEY)return;
-    try{
-      const h={apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`};
-      const [pr,cr]=await Promise.all([fetch(`${SUPABASE_URL}/rest/v1/products?select=*&is_active=eq.true&order=created_at.desc`,{headers:h}),fetch(`${SUPABASE_URL}/rest/v1/categories?select=id,name,slug&is_active=eq.true`,{headers:h})]);
-      if(!pr.ok)return;
-      const products=await pr.json(),cats=cr.ok?await cr.json():[];const cm={};cats.forEach(c=>cm[c.id]=c);
-      const ids=products.map(p=>p.id).filter(Boolean);let ims=[];
-      if(ids.length){const r=await fetch(`${SUPABASE_URL}/rest/v1/product_images?select=product_id,image_url,sort_order&product_id=in.(${ids.join(',')})&order=sort_order.asc`,{headers:h});if(r.ok)ims=await r.json()}
-      const im={};ims.forEach(x=>{if(!im[x.product_id])im[x.product_id]=x.image_url});
-      const rows=products.map(p=>({...p,section:section(cm[p.category_id]||{}),image:im[p.id],meta:[p.storage,p.condition].filter(Boolean).join(' • ')||'Available',price:money(p.sale_price??p.price),tag:p.condition?'VERIFIED USED':p.is_featured?'FEATURED':'NEW'}));
-      const put=(id,arr,msg)=>{const el=document.getElementById(id);if(el)el.innerHTML=arr.length?arr.map(card).join(''):`<div class="catalog-empty">${msg}</div>`};
-      put('newProducts',rows.filter(p=>p.section==='new'),'No new phones listed yet.');put('usedProducts',rows.filter(p=>p.section==='used'),'No second-hand phones listed yet.');put('accessoryProducts',rows.filter(p=>p.section==='accessories'),'No accessories listed yet.');
-    }catch(e){console.warn('Catalogue:',e)}
-  }
-  const s=document.getElementById('siteSearch');s?.addEventListener('input',e=>{const q=e.target.value.toLowerCase().trim();document.querySelectorAll('.search-product').forEach(x=>x.style.display=!q||x.dataset.name.includes(q)?'':'none')});
-  const m=document.getElementById('menuBtn');m?.addEventListener('click',()=>{const n=document.querySelector('.header nav');if(n)n.style.display=n.style.display==='flex'?'none':'flex'});
-  loadCatalogue();
+  async function loadCatalogue(){if(!SUPABASE_KEY)return;try{const h={apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`};const [pr,cr]=await Promise.all([fetch(`${SUPABASE_URL}/rest/v1/products?select=*&is_active=eq.true&order=created_at.desc`,{headers:h}),fetch(`${SUPABASE_URL}/rest/v1/categories?select=id,name,slug&is_active=eq.true`,{headers:h})]);if(!pr.ok)return;const products=await pr.json(),cats=cr.ok?await cr.json():[];const cm={};cats.forEach(c=>cm[c.id]=c);const ids=products.map(p=>p.id).filter(Boolean);let ims=[];if(ids.length){const r=await fetch(`${SUPABASE_URL}/rest/v1/product_images?select=product_id,image_url,sort_order&product_id=in.(${ids.join(',')})&order=sort_order.asc`,{headers:h});if(r.ok)ims=await r.json()}const im={};ims.forEach(x=>{if(!im[x.product_id])im[x.product_id]=x.image_url});const rows=products.map(p=>({...p,section:section(cm[p.category_id]||{}),image:im[p.id],meta:[p.storage,p.condition].filter(Boolean).join(' • ')||'Available',price:money(p.sale_price??p.price),tag:p.condition?'VERIFIED USED':p.is_featured?'FEATURED':'NEW'}));const put=(id,arr,msg)=>{const el=document.getElementById(id);if(el)el.innerHTML=arr.length?arr.map(card).join(''):`<div class="catalog-empty">${msg}</div>`};put('newProducts',rows.filter(p=>p.section==='new'),'No new phones listed yet.');put('usedProducts',rows.filter(p=>p.section==='used'),'No second-hand phones listed yet.');put('accessoryProducts',rows.filter(p=>p.section==='accessories'),'No accessories listed yet.')}catch(e){console.warn('Catalogue:',e)}}
+  document.getElementById('siteSearch')?.addEventListener('input',e=>{const q=e.target.value.toLowerCase().trim();document.querySelectorAll('.search-product').forEach(x=>x.style.display=!q||x.dataset.name.includes(q)?'':'none')});document.getElementById('menuBtn')?.addEventListener('click',()=>{const n=document.querySelector('.header nav');if(n)n.style.display=n.style.display==='flex'?'none':'flex'});loadCatalogue();
 })();
