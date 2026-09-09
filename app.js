@@ -2,13 +2,13 @@
 (()=>{
   const SUPABASE_URL='https://iljmxsfcjuutppftsrrt.supabase.co';
   const SUPABASE_KEY=(document.documentElement.innerHTML.match(/sb_publishable_[A-Za-z0-9_-]+/)||[])[0]||'';
-  const HD='/assets/raza-hero-reference-hd.jpg?v=9';
-  const BACKUP='/assets/raza-hero-reference.jpg?v=9';
+  const HD='/assets/raza-hero-reference-hd.jpg?v=10';
+  const BACKUP='/assets/raza-hero-reference.jpg?v=10';
 
   const css=document.createElement('style');
   css.textContent=`
     .hero{min-height:0!important;padding:0!important;display:block!important;overflow:hidden!important;background:#071426!important}
-    .hero .hero-copy{display:none!important}
+    .hero .hero-copy{display:block!important;position:absolute!important;left:-99999px!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:0!important;pointer-events:none!important}
     .hero-art{position:relative!important;width:100%!important;height:auto!important;min-height:0!important;aspect-ratio:1672/818!important;margin:0!important;border-radius:0!important;display:block!important;overflow:hidden!important;background:#071426!important;z-index:2!important}
     .hero-art .hero-image-local{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;display:block!important;object-fit:cover!important;object-position:center!important;margin:0!important;padding:0!important;max-width:none!important;border:0!important;animation:none!important;image-rendering:auto!important;backface-visibility:hidden!important;transform:none!important}
     .hero-art.hero-error .hero-image-local{display:none!important}
@@ -18,6 +18,8 @@
     .hero-art .hero-hotspot{position:absolute!important;z-index:6!important;background:transparent!important;border:0!important}
     .hero-art .hero-shop{left:4%!important;top:70%!important;width:20%!important;height:17%!important}
     .hero-art .hero-next{right:1%!important;top:48%!important;width:9%!important;height:18%!important}
+    .hero.hero-runtime-fallback .hero-copy{position:relative!important;left:auto!important;width:auto!important;height:auto!important;overflow:visible!important;opacity:1!important;pointer-events:auto!important;display:block!important;padding:70px 6vw!important;background:#fff!important}
+    .hero.hero-runtime-fallback .hero-art{display:none!important}
     @media(max-width:820px){
       .hero-art{min-height:430px!important;aspect-ratio:1.65!important}
       .hero-art .hero-shop{left:3%!important;top:68%!important;width:28%!important;height:20%!important}
@@ -27,15 +29,21 @@
   document.head.appendChild(css);
 
   function showCopy(){
+    const hero=document.querySelector('.hero');
     const copy=document.querySelector('.hero-copy');
-    if(copy) copy.style.display='block';
+    if(hero)hero.classList.add('hero-runtime-fallback');
+    if(copy){copy.style.display='block';copy.style.position='relative';copy.style.left='auto';copy.style.width='auto';copy.style.height='auto';copy.style.opacity='1';copy.style.pointerEvents='auto'}
   }
   function hideCopy(){
+    const hero=document.querySelector('.hero');
     const copy=document.querySelector('.hero-copy');
-    if(copy) copy.style.display='none';
+    if(hero)hero.classList.remove('hero-runtime-fallback');
+    if(copy){copy.style.display='none';copy.style.position='absolute';copy.style.left='-99999px';copy.style.width='1px';copy.style.height='1px';copy.style.opacity='0';copy.style.pointerEvents='none'}
   }
   function renderReference(){
     const art=document.querySelector('.hero-art'); if(!art)return;
+    const hero=document.querySelector('.hero');
+    hero?.classList.remove('hero-runtime-fallback');
     art.className='hero-art';
     art.innerHTML=`<img class="hero-image-local" src="${HD}" alt="Raza Mobile & Electronics flagship hero"><div class="hero-fallback"><b>RAZA</b>&nbsp; MOBILE &amp; ELECTRONICS</div><a class="hero-hotspot hero-shop" href="#new" aria-label="Shop Now"></a><a class="hero-hotspot hero-next" href="#new" aria-label="Next"></a>`;
     const img=art.querySelector('.hero-image-local');
@@ -48,20 +56,17 @@
       }
       art.classList.add('hero-error');
       showCopy();
-    });
+    },{once:false});
   }
   function renderCustom(url){
     const art=document.querySelector('.hero-art'); if(!art)return;
+    const hero=document.querySelector('.hero');
+    hero?.classList.remove('hero-runtime-fallback');
     art.className='hero-art';
     art.innerHTML=`<img class="hero-image-local" src="${String(url).replace(/"/g,'&quot;')}" alt="Raza Mobile & Electronics hero"><div class="hero-fallback"><b>RAZA</b>&nbsp; MOBILE &amp; ELECTRONICS</div><a class="hero-hotspot hero-shop" href="#new" aria-label="Shop Now"></a>`;
     const img=art.querySelector('.hero-image-local');
     img.addEventListener('load',hideCopy,{once:true});
-    img.addEventListener('error',()=>{
-      art.innerHTML=`<img class="hero-image-local" src="${HD}" alt="Raza Mobile & Electronics flagship hero"><div class="hero-fallback"><b>RAZA</b>&nbsp; MOBILE &amp; ELECTRONICS</div><a class="hero-hotspot hero-shop" href="#new" aria-label="Shop Now"></a>`;
-      const next=art.querySelector('.hero-image-local');
-      next.addEventListener('load',hideCopy,{once:true});
-      next.addEventListener('error',()=>{art.classList.add('hero-error');showCopy()},{once:true});
-    },{once:true});
+    img.addEventListener('error',()=>renderReference(),{once:true});
   }
   renderReference();
 
