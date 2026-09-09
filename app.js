@@ -1,59 +1,33 @@
-/* RAZA homepage runtime — stable hero + catalogue. */
+/* RAZA homepage — bulletproof hero + catalogue */
 (()=>{
   const SUPABASE_URL='https://iljmxsfcjuutppftsrrt.supabase.co';
   const SUPABASE_KEY=(document.documentElement.innerHTML.match(/sb_publishable_[A-Za-z0-9_-]+/)||[])[0]||'';
-  const HD='https://raw.githubusercontent.com/rahireza786-collab/Raza-Mobile-Electronics-/main/assets/raza-hero-reference-hd.jpg?v=11';
-  const BACKUP='https://raw.githubusercontent.com/rahireza786-collab/Raza-Mobile-Electronics-/main/assets/raza-hero-reference.jpg?v=11';
-
-  const css=document.createElement('style');
-  css.textContent=`
-    .hero{min-height:0!important;padding:0!important;display:block!important;overflow:hidden!important;background:#071426!important}
-    .hero .hero-copy{display:block!important;position:absolute!important;left:-99999px!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:0!important;pointer-events:none!important}
-    .hero-art{position:relative!important;width:100%!important;height:auto!important;min-height:0!important;aspect-ratio:1672/818!important;margin:0!important;border-radius:0!important;display:block!important;overflow:hidden!important;background:#071426!important;z-index:2!important}
-    .hero-art .hero-image-local{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;display:block!important;object-fit:cover!important;object-position:center!important;margin:0!important;padding:0!important;max-width:none!important;border:0!important;animation:none!important;image-rendering:auto!important;backface-visibility:hidden!important;transform:none!important}
-    .hero-art.hero-error .hero-image-local{display:none!important}
-    .hero-art .hero-fallback{position:absolute!important;inset:0!important;display:none;align-items:center;justify-content:center;background:linear-gradient(135deg,#071426,#12345e 60%,#0a1730);color:#fff;font:800 28px Manrope,sans-serif;z-index:4!important}
+  const HERO='/assets/raza-hero-reference-hd.jpg?v=20';
+  const BACKUP='/assets/raza-hero-reference.jpg?v=20';
+  const style=document.createElement('style');
+  style.textContent=`
+    .hero{display:block!important;min-height:0!important;padding:0!important;overflow:hidden!important;background:#071426!important;position:relative!important}
+    .hero-art{position:relative!important;width:100%!important;height:auto!important;min-height:0!important;aspect-ratio:1672/818!important;margin:0!important;display:block!important;overflow:hidden!important;background:#071426 url('${HERO}') center/cover no-repeat!important;z-index:2!important}
+    .hero-image-local{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;display:block!important;object-fit:cover!important;object-position:center!important;max-width:none!important;margin:0!important;padding:0!important;border:0!important;opacity:1!important;visibility:visible!important}
+    .hero-copy{display:none!important}
+    .hero-art .hero-fallback{position:absolute!important;inset:0!important;display:none;align-items:center;justify-content:center;background:#071426;color:#fff;font:800 30px Manrope,sans-serif;z-index:4!important}
     .hero-art.hero-error .hero-fallback{display:flex!important}
-    .hero-art .hero-fallback b{color:#f0c85c}
-    .hero-art .hero-hotspot{position:absolute!important;z-index:6!important;background:transparent!important;border:0!important}
-    .hero-art .hero-shop{left:4%!important;top:70%!important;width:20%!important;height:17%!important}
-    .hero-art .hero-next{right:1%!important;top:48%!important;width:9%!important;height:18%!important}
-    .hero.hero-runtime-fallback .hero-copy{position:relative!important;left:auto!important;width:auto!important;height:auto!important;overflow:visible!important;opacity:1!important;pointer-events:auto!important;display:block!important;padding:70px 6vw!important;background:#fff!important}
-    .hero.hero-runtime-fallback .hero-art{display:none!important}
-    @media(max-width:820px){.hero-art{min-height:430px!important;aspect-ratio:1.65!important}.hero-art .hero-shop{left:3%!important;top:68%!important;width:28%!important;height:20%!important}.hero-art .hero-next{right:1%!important;top:48%!important;width:13%!important;height:20%!important}}
+    .hero-art.hero-error{background:linear-gradient(135deg,#071426,#173b68)!important}
+    .hero-art.hero-error .hero-image-local{display:none!important}
+    .hero-hotspot{position:absolute!important;z-index:8!important;background:transparent!important;border:0!important}
+    .hero-shop{left:3%;top:65%;width:24%;height:22%}
+    .hero-next{right:0;top:40%;width:10%;height:25%}
+    @media(max-width:820px){.hero-art{aspect-ratio:1.65!important}.hero-shop{left:2%;top:64%;width:32%;height:25%}.hero-next{width:15%;height:25%}}
   `;
-  document.head.appendChild(css);
+  document.head.appendChild(style);
 
-  function showCopy(){
-    const hero=document.querySelector('.hero'),copy=document.querySelector('.hero-copy');
-    if(hero)hero.classList.add('hero-runtime-fallback');
-    if(copy){copy.style.display='block';copy.style.position='relative';copy.style.left='auto';copy.style.width='auto';copy.style.height='auto';copy.style.opacity='1';copy.style.pointerEvents='auto'}
-  }
-  function hideCopy(){
-    const hero=document.querySelector('.hero'),copy=document.querySelector('.hero-copy');
-    if(hero)hero.classList.remove('hero-runtime-fallback');
-    if(copy){copy.style.display='none';copy.style.position='absolute';copy.style.left='-99999px';copy.style.width='1px';copy.style.height='1px';copy.style.opacity='0';copy.style.pointerEvents='none'}
-  }
-  function renderReference(){
-    const art=document.querySelector('.hero-art'); if(!art)return;
+  const art=document.querySelector('.hero-art');
+  if(art){
     art.className='hero-art';
-    art.innerHTML=`<img class="hero-image-local" src="${HD}" alt="Raza Mobile & Electronics flagship hero"><div class="hero-fallback"><b>RAZA</b>&nbsp; MOBILE &amp; ELECTRONICS</div><a class="hero-hotspot hero-shop" href="#new" aria-label="Shop Now"></a><a class="hero-hotspot hero-next" href="#new" aria-label="Next"></a>`;
-    const img=art.querySelector('.hero-image-local');
-    img.addEventListener('load',hideCopy,{once:true});
-    img.addEventListener('error',()=>{
-      if(img.dataset.backup!=='1'){img.dataset.backup='1';img.src=BACKUP;return;}
-      art.classList.add('hero-error');showCopy();
-    });
+    art.innerHTML=`<img class="hero-image-local" src="${HERO}" alt="Raza Mobile & Electronics premium hero"><div class="hero-fallback"><b>RAZA</b>&nbsp; MOBILE &amp; ELECTRONICS</div><a class="hero-hotspot hero-shop" href="#new" aria-label="Shop Now"></a><a class="hero-hotspot hero-next" href="#new" aria-label="Next"></a>`;
+    const img=art.querySelector('img');
+    img.onerror=()=>{if(!img.dataset.backup){img.dataset.backup='1';img.src=BACKUP}else{art.classList.add('hero-error')}};
   }
-  function renderCustom(url){
-    const art=document.querySelector('.hero-art'); if(!art)return;
-    art.className='hero-art';
-    art.innerHTML=`<img class="hero-image-local" src="${String(url).replace(/"/g,'&quot;')}" alt="Raza Mobile & Electronics hero"><div class="hero-fallback"><b>RAZA</b>&nbsp; MOBILE &amp; ELECTRONICS</div><a class="hero-hotspot hero-shop" href="#new" aria-label="Shop Now"></a>`;
-    const img=art.querySelector('.hero-image-local');
-    img.addEventListener('load',hideCopy,{once:true});
-    img.addEventListener('error',()=>renderReference(),{once:true});
-  }
-  renderReference();
 
   const money=v=>`₹${Number(v||0).toLocaleString('en-IN')}`;
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -76,18 +50,7 @@
       put('newProducts',rows.filter(p=>p.section==='new'),'No new phones listed yet.');put('usedProducts',rows.filter(p=>p.section==='used'),'No second-hand phones listed yet.');put('accessoryProducts',rows.filter(p=>p.section==='accessories'),'No accessories listed yet.');
     }catch(e){console.warn('Catalogue:',e)}
   }
-  async function loadHeroSetting(){
-    if(!SUPABASE_KEY)return;
-    try{
-      const h={apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`};
-      const r=await fetch(`${SUPABASE_URL}/rest/v1/site_settings?select=key,value,image_url&key=in.(hero_image,hero_animation)&order=key.asc`,{headers:h,cache:'no-store'});
-      if(!r.ok)return;
-      const rows=await r.json(),map={};rows.forEach(x=>map[x.key]=x);
-      const url=map.hero_image?.image_url||map.hero_image?.value||'';
-      if(url)renderCustom(url);
-    }catch(e){console.warn('Hero settings:',e)}
-  }
   const s=document.getElementById('siteSearch');s?.addEventListener('input',e=>{const q=e.target.value.toLowerCase().trim();document.querySelectorAll('.search-product').forEach(x=>x.style.display=!q||x.dataset.name.includes(q)?'':'none')});
   const m=document.getElementById('menuBtn');m?.addEventListener('click',()=>{const n=document.querySelector('.header nav');if(n)n.style.display=n.style.display==='flex'?'none':'flex'});
-  loadCatalogue();loadHeroSetting();
+  loadCatalogue();
 })();
