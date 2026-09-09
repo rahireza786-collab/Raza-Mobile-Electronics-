@@ -2,13 +2,13 @@
 (()=>{
   const SUPABASE_URL='https://iljmxsfcjuutppftsrrt.supabase.co';
   const SUPABASE_KEY=(document.documentElement.innerHTML.match(/sb_publishable_[A-Za-z0-9_-]+/)||[])[0]||'';
-  const REF='/assets/raza-hero-reference.jpg?v=5';
+  const REF='/assets/raza-hero-reference.jpg?v=6';
   const css=document.createElement('style');
   css.textContent=`
   .hero{min-height:0!important;padding:0!important;display:block!important;overflow:hidden!important;background:#071426!important}
   .hero .hero-copy{display:none!important}
   .hero-art{position:relative!important;width:100%!important;height:auto!important;min-height:0!important;aspect-ratio:1200/614!important;margin:0!important;border-radius:0!important;display:block!important;overflow:hidden!important;background:#071426!important;z-index:2!important}
-  .hero-art .hero-image-local{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;display:block!important;object-fit:cover!important;object-position:center!important;margin:0!important;padding:0!important;max-width:none!important;border:0!important;animation:none!important;filter:none!important}
+  .hero-art .hero-image-local{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;display:block!important;object-fit:cover!important;object-position:center!important;margin:0!important;padding:0!important;max-width:none!important;border:0!important;animation:none!important;filter:url(#hero-sharpen)!important;image-rendering:auto!important;backface-visibility:hidden!important;transform:translateZ(0)!important}
   .hero-art .hero-fallback{position:absolute!important;inset:0!important;display:none;align-items:center;justify-content:center;background:linear-gradient(135deg,#071426,#12345e 60%,#0a1730);color:#fff;font:800 28px Manrope,sans-serif;z-index:1!important}
   .hero-art .hero-fallback b{color:#f0c85c}
   .hero-art .hero-hotspot{position:absolute!important;z-index:5!important;background:transparent!important;border:0!important}
@@ -18,6 +18,10 @@
   @media(max-width:820px){.hero-art{min-height:430px!important}.hero-art .hero-shop{left:3%!important;top:70%!important;width:25%!important;height:15%!important}.hero-art .hero-next{right:1%!important;top:52%!important;width:10%!important;height:14%!important}}
   `;
   document.head.appendChild(css);
+  const sharp=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  sharp.setAttribute('aria-hidden','true'); sharp.style.cssText='position:absolute;width:0;height:0;pointer-events:none';
+  sharp.innerHTML='<defs><filter id="hero-sharpen" x="-8%" y="-8%" width="116%" height="116%"><feConvolveMatrix order="3" preserveAlpha="true" kernelMatrix="0 -0.35 0 -0.35 2.4 -0.35 0 -0.35 0"/></filter></defs>';
+  document.body.appendChild(sharp);
 
   function renderReference(){
     const art=document.querySelector('.hero-art'); if(!art)return;
