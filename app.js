@@ -2,8 +2,8 @@
 (()=>{
   const SUPABASE_URL='https://iljmxsfcjuutppftsrrt.supabase.co';
   const SUPABASE_KEY=(document.documentElement.innerHTML.match(/sb_publishable_[A-Za-z0-9_-]+/)||[])[0]||'';
-  const HD='/assets/raza-hero-reference-hd.jpg?v=10';
-  const BACKUP='/assets/raza-hero-reference.jpg?v=10';
+  const HD='https://raw.githubusercontent.com/rahireza786-collab/Raza-Mobile-Electronics-/main/assets/raza-hero-reference-hd.jpg?v=11';
+  const BACKUP='https://raw.githubusercontent.com/rahireza786-collab/Raza-Mobile-Electronics-/main/assets/raza-hero-reference.jpg?v=11';
 
   const css=document.createElement('style');
   css.textContent=`
@@ -20,48 +20,33 @@
     .hero-art .hero-next{right:1%!important;top:48%!important;width:9%!important;height:18%!important}
     .hero.hero-runtime-fallback .hero-copy{position:relative!important;left:auto!important;width:auto!important;height:auto!important;overflow:visible!important;opacity:1!important;pointer-events:auto!important;display:block!important;padding:70px 6vw!important;background:#fff!important}
     .hero.hero-runtime-fallback .hero-art{display:none!important}
-    @media(max-width:820px){
-      .hero-art{min-height:430px!important;aspect-ratio:1.65!important}
-      .hero-art .hero-shop{left:3%!important;top:68%!important;width:28%!important;height:20%!important}
-      .hero-art .hero-next{right:1%!important;top:48%!important;width:13%!important;height:20%!important}
-    }
+    @media(max-width:820px){.hero-art{min-height:430px!important;aspect-ratio:1.65!important}.hero-art .hero-shop{left:3%!important;top:68%!important;width:28%!important;height:20%!important}.hero-art .hero-next{right:1%!important;top:48%!important;width:13%!important;height:20%!important}}
   `;
   document.head.appendChild(css);
 
   function showCopy(){
-    const hero=document.querySelector('.hero');
-    const copy=document.querySelector('.hero-copy');
+    const hero=document.querySelector('.hero'),copy=document.querySelector('.hero-copy');
     if(hero)hero.classList.add('hero-runtime-fallback');
     if(copy){copy.style.display='block';copy.style.position='relative';copy.style.left='auto';copy.style.width='auto';copy.style.height='auto';copy.style.opacity='1';copy.style.pointerEvents='auto'}
   }
   function hideCopy(){
-    const hero=document.querySelector('.hero');
-    const copy=document.querySelector('.hero-copy');
+    const hero=document.querySelector('.hero'),copy=document.querySelector('.hero-copy');
     if(hero)hero.classList.remove('hero-runtime-fallback');
     if(copy){copy.style.display='none';copy.style.position='absolute';copy.style.left='-99999px';copy.style.width='1px';copy.style.height='1px';copy.style.opacity='0';copy.style.pointerEvents='none'}
   }
   function renderReference(){
     const art=document.querySelector('.hero-art'); if(!art)return;
-    const hero=document.querySelector('.hero');
-    hero?.classList.remove('hero-runtime-fallback');
     art.className='hero-art';
     art.innerHTML=`<img class="hero-image-local" src="${HD}" alt="Raza Mobile & Electronics flagship hero"><div class="hero-fallback"><b>RAZA</b>&nbsp; MOBILE &amp; ELECTRONICS</div><a class="hero-hotspot hero-shop" href="#new" aria-label="Shop Now"></a><a class="hero-hotspot hero-next" href="#new" aria-label="Next"></a>`;
     const img=art.querySelector('.hero-image-local');
     img.addEventListener('load',hideCopy,{once:true});
     img.addEventListener('error',()=>{
-      if(img.dataset.backup!=='1'){
-        img.dataset.backup='1';
-        img.src=BACKUP;
-        return;
-      }
-      art.classList.add('hero-error');
-      showCopy();
-    },{once:false});
+      if(img.dataset.backup!=='1'){img.dataset.backup='1';img.src=BACKUP;return;}
+      art.classList.add('hero-error');showCopy();
+    });
   }
   function renderCustom(url){
     const art=document.querySelector('.hero-art'); if(!art)return;
-    const hero=document.querySelector('.hero');
-    hero?.classList.remove('hero-runtime-fallback');
     art.className='hero-art';
     art.innerHTML=`<img class="hero-image-local" src="${String(url).replace(/"/g,'&quot;')}" alt="Raza Mobile & Electronics hero"><div class="hero-fallback"><b>RAZA</b>&nbsp; MOBILE &amp; ELECTRONICS</div><a class="hero-hotspot hero-shop" href="#new" aria-label="Shop Now"></a>`;
     const img=art.querySelector('.hero-image-local');
@@ -88,9 +73,7 @@
       const im={};ims.forEach(x=>{if(!im[x.product_id])im[x.product_id]=x.image_url});
       const rows=products.map(p=>({...p,section:section(cm[p.category_id]||{}),image:im[p.id],meta:[p.storage,p.condition].filter(Boolean).join(' • ')||'Available',price:money(p.sale_price??p.price),tag:p.condition?'VERIFIED USED':p.is_featured?'FEATURED':'NEW'}));
       const put=(id,arr,msg)=>{const el=document.getElementById(id);if(el)el.innerHTML=arr.length?arr.map(card).join(''):`<div class="catalog-empty">${msg}</div>`};
-      put('newProducts',rows.filter(p=>p.section==='new'),'No new phones listed yet.');
-      put('usedProducts',rows.filter(p=>p.section==='used'),'No second-hand phones listed yet.');
-      put('accessoryProducts',rows.filter(p=>p.section==='accessories'),'No accessories listed yet.');
+      put('newProducts',rows.filter(p=>p.section==='new'),'No new phones listed yet.');put('usedProducts',rows.filter(p=>p.section==='used'),'No second-hand phones listed yet.');put('accessoryProducts',rows.filter(p=>p.section==='accessories'),'No accessories listed yet.');
     }catch(e){console.warn('Catalogue:',e)}
   }
   async function loadHeroSetting(){
@@ -104,10 +87,7 @@
       if(url)renderCustom(url);
     }catch(e){console.warn('Hero settings:',e)}
   }
-  const s=document.getElementById('siteSearch');
-  s?.addEventListener('input',e=>{const q=e.target.value.toLowerCase().trim();document.querySelectorAll('.search-product').forEach(x=>x.style.display=!q||x.dataset.name.includes(q)?'':'none')});
-  const m=document.getElementById('menuBtn');
-  m?.addEventListener('click',()=>{const n=document.querySelector('.header nav');if(n)n.style.display=n.style.display==='flex'?'none':'flex'});
-  loadCatalogue();
-  loadHeroSetting();
+  const s=document.getElementById('siteSearch');s?.addEventListener('input',e=>{const q=e.target.value.toLowerCase().trim();document.querySelectorAll('.search-product').forEach(x=>x.style.display=!q||x.dataset.name.includes(q)?'':'none')});
+  const m=document.getElementById('menuBtn');m?.addEventListener('click',()=>{const n=document.querySelector('.header nav');if(n)n.style.display=n.style.display==='flex'?'none':'flex'});
+  loadCatalogue();loadHeroSetting();
 })();
