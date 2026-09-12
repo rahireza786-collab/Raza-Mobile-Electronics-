@@ -12,22 +12,13 @@
     const img=document.querySelector('.raza-hero-photo img');
     if(!img)return;
     try{
-      const r=await fetch('/assets/raza-hero-uploaded.jpg?v=20260912');
+      const r=await fetch('/assets/raza-hero-uploaded.jpg?v=20260912-data');
       const text=(await r.text()).replace(/\s/g,'');
-      if(text.startsWith('/9j/')||text.startsWith('iVBOR')){
-        const bin=atob(text);
-        const bytes=new Uint8Array(bin.length);
-        for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
-        const type=text.startsWith('/9j/')?'image/jpeg':'image/png';
-        img.src=URL.createObjectURL(new Blob([bytes],{type}));
-      }else{
-        img.src='/assets/raza-hero-reference.jpg?v=20260912-good';
-      }
+      if(text.startsWith('/9j/')) img.src='data:image/jpeg;base64,'+text;
+      else if(text.startsWith('iVBOR')) img.src='data:image/png;base64,'+text;
       img.style.visibility='visible';
       img.style.display='block';
-    }catch(e){
-      img.src='/assets/raza-hero-reference.jpg?v=20260912-good';
-    }
+    }catch(e){console.warn('Hero image:',e)}
   }
   fix();
   setTimeout(fix,300);
